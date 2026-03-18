@@ -1,0 +1,666 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Hind+Siliguri:wght@400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
+    --red:#E24B4A;--red-light:#FCEBEB;
+    --cream:#f8f6f0;--bark:#2C2416;--mist:#9FE1CB;
+    --ff:'Fraunces',Georgia,serif;--fs:'DM Sans',sans-serif;--fb:'Hind Siliguri','DM Sans',sans-serif;
+  }
+  body{font-family:var(--fs);color:var(--bark);background:#fff;}
+  .page{display:none;} .page.active{display:block;}
+
+  nav{background:#fff;border-bottom:0.5px solid #e5e7eb;position:sticky;top:0;z-index:100;}
+  .nav-inner{max-width:1240px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+  .logo-mark{width:38px;height:38px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--ff);color:#fff;font-size:13px;font-weight:600;}
+  .logo-text{font-family:var(--ff);font-size:20px;font-weight:600;color:var(--bark);}
+  .logo-text span{color:var(--green);}
+  .logo-sub{font-size:10px;color:#888;display:block;line-height:1;margin-top:1px;font-family:var(--fb);}
+  .nav-links{display:flex;gap:1.75rem;}
+  .nav-links a{font-size:13.5px;color:#666;cursor:pointer;text-decoration:none;transition:color .2s;}
+  .nav-links a:hover{color:var(--green);}
+  .nav-right{display:flex;align-items:center;gap:.75rem;}
+  .search-bar{border:0.5px solid #e5e7eb;border-radius:8px;padding:7px 12px;font-size:13px;font-family:var(--fs);width:170px;outline:none;}
+  .search-bar:focus{border-color:var(--green);}
+  .cart-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-family:var(--fs);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s;}
+  .cart-btn:hover{background:var(--green-dark);}
+  .cart-count{background:#fff;color:var(--green);border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:500;}
+
+  .hero{background:var(--cream);padding:5rem 2rem;}
+  .hero-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green-dark);padding:5px 14px;border-radius:100px;font-size:12px;margin-bottom:1.25rem;font-family:var(--fb);}
+  .hero-badge::before{content:'';width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;}
+  .hero h1{font-family:var(--ff);font-size:50px;line-height:1.15;color:var(--bark);font-weight:600;margin-bottom:.75rem;}
+  .hero h1 em{color:var(--green);font-style:italic;}
+  .hero-bangla{font-family:var(--fb);font-size:20px;color:var(--green-dark);margin-bottom:1.25rem;font-weight:500;}
+  .hero p{font-size:15px;color:#666;line-height:1.75;margin-bottom:1.75rem;}
+  .hero-ctas{display:flex;gap:.75rem;}
+  .btn-primary{background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:14px;font-family:var(--fs);cursor:pointer;font-weight:500;transition:background .2s,transform .1s;}
+  .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);}
+  .btn-outline{background:transparent;color:var(--bark);border:1.5px solid var(--bark);border-radius:10px;padding:13px 26px;font-size:14px;font-family:var(--fs);cursor:pointer;transition:all .2s;}
+  .btn-outline:hover{background:var(--bark);color:#fff;}
+  .hero-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .hc1{height:280px;background:#9FE1CB;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:52px;grid-row:span 2;}
+  .hc2{height:130px;background:#C0DD97;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:44px;}
+  .hc3{height:130px;background:#FAC775;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:44px;}
+
+  .strip{background:var(--green-dark);padding:.6rem 2rem;}
+  .strip-inner{max-width:1240px;margin:0 auto;display:flex;justify-content:center;gap:3rem;}
+  .strip-item{color:var(--mist);font-size:12.5px;display:flex;align-items:center;gap:6px;font-family:var(--fb);}
+
+  .stats{background:#f0faf5;padding:3rem 2rem;}
+  .stats-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;}
+  .stat-num{font-family:var(--ff);font-size:34px;color:var(--green-dark);font-weight:600;}
+  .stat-label{font-size:12px;color:#666;margin-top:4px;font-family:var(--fb);}
+
+  .section{max-width:1240px;margin:0 auto;padding:4.5rem 2rem;}
+  .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2.25rem;}
+  .section-title{font-family:var(--ff);font-size:32px;color:var(--bark);font-weight:600;}
+  .section-title-bn{font-family:var(--fb);font-size:15px;color:#888;display:block;margin-top:2px;font-weight:400;}
+  .see-all{font-size:13px;color:var(--green);cursor:pointer;}
+
+  .categories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .cat-card{background:var(--cream);border-radius:16px;padding:1.75rem 1.25rem;text-align:center;cursor:pointer;transition:transform .2s;border:0.5px solid transparent;}
+  .cat-card:hover{transform:translateY(-4px);border-color:var(--green);}
+  .cat-icon-wrap{width:60px;height:60px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .cat-name{font-family:var(--ff);font-size:16px;color:var(--bark);font-weight:600;margin-bottom:2px;}
+  .cat-name-bn{font-family:var(--fb);font-size:12px;color:#888;}
+  .cat-count{font-size:11px;color:#999;margin-top:4px;}
+
+  .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .product-card{border:0.5px solid #e5e7eb;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .2s;background:#fff;}
+  .product-card:hover{transform:translateY(-4px);}
+  .product-img{height:190px;display:flex;align-items:center;justify-content:center;font-size:52px;}
+  .product-body{padding:1.1rem;}
+  .product-tag{display:inline-block;background:var(--green-light);color:var(--green-dark);padding:3px 10px;border-radius:100px;font-size:10px;margin-bottom:7px;}
+  .product-name{font-family:var(--ff);font-size:16px;color:var(--bark);font-weight:600;margin-bottom:2px;}
+  .product-name-bn{font-family:var(--fb);font-size:12px;color:#888;margin-bottom:6px;}
+  .product-desc{font-size:12.5px;color:#777;margin-bottom:.9rem;line-height:1.5;}
+  .product-footer{display:flex;align-items:center;justify-content:space-between;}
+  .product-price{font-size:17px;font-weight:500;color:var(--green-dark);}
+  .product-price-sub{font-size:10px;color:#999;display:block;}
+  .add-to-cart{background:var(--green);color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;cursor:pointer;font-family:var(--fs);transition:background .2s;}
+  .add-to-cart:hover{background:var(--green-dark);}
+
+  .banner{background:var(--bark);padding:4rem;border-radius:20px;position:relative;overflow:hidden;}
+  .banner-section{padding:2rem 2rem 4.5rem;max-width:1240px;margin:0 auto;}
+  .banner h2{font-family:var(--ff);font-size:36px;color:#fff;font-weight:600;margin-bottom:.5rem;max-width:460px;line-height:1.3;}
+  .banner h2 em{color:var(--mist);font-style:italic;}
+  .banner-bn{font-family:var(--fb);font-size:16px;color:var(--mist);margin-bottom:1rem;}
+  .banner p{color:#9ca3af;font-size:15px;margin-bottom:1.75rem;max-width:420px;line-height:1.7;}
+  .banner-deco{position:absolute;right:3rem;top:50%;transform:translateY(-50%);font-size:110px;opacity:.12;}
+
+  .shop-header{background:var(--cream);padding:3.5rem 2rem;text-align:center;}
+  .shop-header h1{font-family:var(--ff);font-size:40px;color:var(--bark);font-weight:600;}
+  .shop-header-bn{font-family:var(--fb);font-size:18px;color:var(--green);margin-top:6px;}
+  .shop-layout{max-width:1240px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:220px 1fr;gap:2.5rem;}
+  .filter-group{margin-bottom:1.75rem;}
+  .filter-group h4{font-size:13px;font-weight:500;color:var(--bark);margin-bottom:.75rem;padding-bottom:7px;border-bottom:0.5px solid #e5e7eb;}
+  .filter-group h4 span{font-family:var(--fb);color:#888;font-size:11px;display:block;font-weight:400;}
+  .filter-item{display:flex;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer;}
+  .filter-item input{accent-color:var(--green);}
+  .filter-item label{font-size:13px;color:#666;cursor:pointer;}
+  .shop-products{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .shop-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+  .shop-toolbar span{font-size:13px;color:#888;}
+  .sort-select{border:0.5px solid #e5e7eb;border-radius:8px;padding:7px 12px;font-size:13px;font-family:var(--fs);outline:none;}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center;}
+  .about-img-stack{position:relative;height:400px;}
+  .about-img1{width:75%;height:320px;background:var(--green-light);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:70px;}
+  .about-img2{position:absolute;bottom:0;right:0;width:52%;height:210px;background:var(--cream);border-radius:20px;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:46px;}
+  .about-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green-dark);padding:5px 14px;border-radius:100px;font-size:12px;margin-bottom:1.25rem;font-family:var(--fb);}
+  .about h2{font-family:var(--ff);font-size:34px;color:var(--bark);font-weight:600;line-height:1.3;margin-bottom:1rem;}
+  .about-bn{font-family:var(--fb);font-size:15px;color:#888;margin-bottom:1rem;}
+  .about p{color:#777;font-size:15px;line-height:1.8;margin-bottom:.85rem;}
+  .values-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.75rem;}
+  .value-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--bark);}
+  .value-dot{width:9px;height:9px;background:var(--green);border-radius:50%;flex-shrink:0;}
+
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;}
+  .contact-info h2{font-family:var(--ff);font-size:34px;color:var(--bark);font-weight:600;margin-bottom:.5rem;}
+  .contact-info-bn{font-family:var(--fb);font-size:16px;color:var(--green);margin-bottom:1.25rem;}
+  .contact-info p{color:#777;font-size:15px;line-height:1.8;margin-bottom:1.75rem;}
+  .contact-detail{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.1rem;}
+  .contact-icon{width:38px;height:38px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .contact-detail-text strong{display:block;font-size:13px;font-weight:500;color:var(--bark);margin-bottom:1px;}
+  .contact-detail-text span{font-size:13px;color:#777;}
+  .contact-form{background:var(--cream);border-radius:20px;padding:2.25rem;}
+  .form-group{margin-bottom:1.1rem;}
+  .form-group label{display:block;font-size:12.5px;font-weight:500;color:var(--bark);margin-bottom:5px;}
+  .form-group label span{font-family:var(--fb);color:#888;font-weight:400;font-size:11px;}
+  .form-group input,.form-group textarea,.form-group select{width:100%;border:0.5px solid #d1d5db;border-radius:10px;padding:10px 13px;font-size:13.5px;font-family:var(--fs);outline:none;background:#fff;transition:border-color .2s;}
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--green);}
+  .form-group textarea{height:110px;resize:vertical;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  .policy-header{background:var(--cream);padding:3.5rem 2rem;text-align:center;}
+  .policy-header h1{font-family:var(--ff);font-size:40px;color:var(--bark);font-weight:600;}
+  .policy-header-bn{font-family:var(--fb);font-size:18px;color:var(--green);margin-top:6px;}
+  .policy-tabs{display:flex;gap:0;border-bottom:0.5px solid #e5e7eb;max-width:900px;margin:0 auto;}
+  .policy-tab{padding:12px 24px;font-size:14px;cursor:pointer;color:#888;border-bottom:2px solid transparent;transition:all .2s;font-family:var(--fb);}
+  .policy-tab.active{color:var(--green);border-bottom-color:var(--green);}
+  .policy-content{max-width:900px;margin:0 auto;padding:3rem 2rem;}
+  .policy-section{margin-bottom:2.5rem;}
+  .policy-section h3{font-family:var(--ff);font-size:20px;color:var(--bark);font-weight:600;margin-bottom:.5rem;}
+  .policy-section h3-bn{display:block;font-family:var(--fb);font-size:15px;color:var(--green);margin-bottom:.75rem;}
+  .policy-section p{font-size:14px;color:#666;line-height:1.85;margin-bottom:.6rem;}
+  .policy-section p.bn{font-family:var(--fb);font-size:13.5px;color:#888;border-left:3px solid var(--green-light);padding-left:12px;margin-bottom:1.25rem;}
+  .policy-pill{display:inline-flex;gap:8px;margin-bottom:1.25rem;}
+  .pill{background:var(--green-light);color:var(--green-dark);padding:4px 12px;border-radius:100px;font-size:11px;font-family:var(--fb);}
+
+  footer{background:var(--bark);color:#fff;padding:4rem 2rem 2rem;margin-top:4rem;}
+  .footer-inner{max-width:1240px;margin:0 auto;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+  .footer-brand p{color:#9ca3af;font-size:13px;line-height:1.8;margin-top:.75rem;}
+  .footer-brand-bn{font-family:var(--fb);font-size:12px;color:#6b7280;margin-top:4px;}
+  .footer-col h4{font-size:13px;font-weight:500;margin-bottom:.85rem;color:#e5e7eb;}
+  .footer-col h4 span{font-family:var(--fb);color:#6b7280;font-size:11px;display:block;font-weight:400;}
+  .footer-col a{display:block;color:#9ca3af;font-size:13px;margin-bottom:7px;cursor:pointer;text-decoration:none;transition:color .2s;}
+  .footer-col a:hover{color:var(--mist);}
+  .footer-col a .bn{font-family:var(--fb);font-size:11px;color:#6b7280;display:block;}
+  .footer-bottom{border-top:0.5px solid #374151;padding-top:1.25rem;display:flex;justify-content:space-between;align-items:center;}
+  .footer-bottom p{color:#6b7280;font-size:12px;}
+  .eco-badge{background:var(--green);color:#fff;padding:4px 12px;border-radius:100px;font-size:11px;font-family:var(--fb);}
+  .bd-flag{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;}
+
+  .lang-toggle{display:flex;border:0.5px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-left:auto;}
+  .lang-btn{padding:5px 12px;font-size:12px;cursor:pointer;background:#fff;border:none;font-family:var(--fs);color:#888;transition:all .2s;}
+  .lang-btn.active{background:var(--green);color:#fff;}
+
+  .toast{background:var(--green-dark);color:#fff;padding:13px 18px;border-radius:12px;font-size:13px;font-family:var(--fb);position:fixed;bottom:22px;right:22px;transform:translateY(100px);opacity:0;transition:all .3s;z-index:999;}
+  .toast.show{transform:translateY(0);opacity:1;}
+
+  .policy-page-wrap{min-height:400px;}
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-mark">SA</div>
+      <div>
+        <div class="logo-text">Sustin<span>Act</span></div>
+        <span class="logo-sub">by Sifat — বাংলাদেশ</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a onclick="showPage('home')">Home / হোম</a>
+      <a onclick="showPage('shop')">Shop / শপ</a>
+      <a onclick="showPage('about')">About / আমাদের</a>
+      <a onclick="showPage('policies')">Policies / নীতিমালা</a>
+      <a onclick="showPage('contact')">Contact / যোগাযোগ</a>
+    </div>
+    <div class="nav-right">
+      <input class="search-bar" placeholder="পণ্য খুঁজুন..." id="searchInput" oninput="handleSearch()" />
+      <button class="cart-btn" onclick="showCart()">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="strip">
+  <div class="strip-inner">
+    <span class="strip-item">✓ বাংলাদেশ জুড়ে ডেলিভারি</span>
+    <span class="strip-item">✓ ৭ দিনের রিটার্ন</span>
+    <span class="strip-item">✓ ৳৫০০+ অর্ডারে ফ্রি শিপিং</span>
+    <span class="strip-item">✓ ১০০% অর্গানিক সার্টিফাইড</span>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">🇧🇩 বাংলাদেশের প্রথম সাসটেইনেবল স্টোর</div>
+        <h1>Live Green,<br><em>Act Sustain</em>ably</h1>
+        <div class="hero-bangla">টেকসই জীবনযাপন করুন, পৃথিবীকে ভালোবাসুন</div>
+        <p>Eco-friendly products, sustainable fashion, organic food & green home goods — curated by Sifat for Bangladesh and beyond. প্রতিটি কেনাকাটায় একটি গাছ লাগানো হয়।</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="showPage('shop')">Shop Now / এখনই কিনুন</button>
+          <button class="btn-outline" onclick="showPage('about')">Our Story</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hc1">🌿</div>
+        <div class="hc2">♻️</div>
+        <div class="hc3">🌱</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stats-inner">
+      <div><div class="stat-num">৫,০০০+</div><div class="stat-label">সন্তুষ্ট গ্রাহক</div></div>
+      <div><div class="stat-num">৩০০+</div><div class="stat-label">ইকো পণ্য</div></div>
+      <div><div class="stat-num">৬৪ জেলা</div><div class="stat-label">ডেলিভারি কভারেজ</div></div>
+      <div><div class="stat-num">১০০%</div><div class="stat-label">প্লাস্টিক-ফ্রি প্যাকেজিং</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Shop by category</div>
+        <span class="section-title-bn">ক্যাটাগরি অনুযায়ী কিনুন</span>
+      </div>
+      <a class="see-all" onclick="showPage('shop')">See all →</a>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card" onclick="filterCat('Eco')">
+        <div class="cat-icon-wrap" style="background:#E1F5EE;">♻️</div>
+        <div class="cat-name">Eco-friendly</div>
+        <div class="cat-name-bn">পরিবেশবান্ধব</div>
+        <div class="cat-count">84 products</div>
+      </div>
+      <div class="cat-card" onclick="filterCat('Fashion')">
+        <div class="cat-icon-wrap" style="background:#EAF3DE;">👗</div>
+        <div class="cat-name">Sustainable Fashion</div>
+        <div class="cat-name-bn">টেকসই ফ্যাশন</div>
+        <div class="cat-count">96 products</div>
+      </div>
+      <div class="cat-card" onclick="filterCat('Organic')">
+        <div class="cat-icon-wrap" style="background:#FAEEDA;">🥗</div>
+        <div class="cat-name">Organic Food</div>
+        <div class="cat-name-bn">অর্গানিক খাবার</div>
+        <div class="cat-count">72 products</div>
+      </div>
+      <div class="cat-card" onclick="filterCat('Home')">
+        <div class="cat-icon-wrap" style="background:#E6F1FB;">🏠</div>
+        <div class="cat-name">Green Home Goods</div>
+        <div class="cat-name-bn">গ্রিন হোম পণ্য</div>
+        <div class="cat-count">58 products</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Featured products</div>
+        <span class="section-title-bn">বিশেষ পণ্যসমূহ</span>
+      </div>
+      <a class="see-all" onclick="showPage('shop')">View all →</a>
+    </div>
+    <div class="products-grid" id="featuredProducts"></div>
+  </div>
+
+  <div class="banner-section">
+    <div class="banner">
+      <div class="banner-bn">🇧🇩 বাংলাদেশকে সবুজ করি একসাথে</div>
+      <h2>Join the <em>green</em> movement with Sifat</h2>
+      <p>Every purchase plants a tree in Bangladesh. প্রতিটি অর্ডারে একটি গাছ লাগানো হয় — আমাদের লক্ষ্য ২০২৬ সালের মধ্যে ১ মিলিয়ন গাছ।</p>
+      <button class="btn-primary" onclick="showPage('shop')">এখনই কিনুন</button>
+      <div class="banner-deco">🌳</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div class="page" id="page-shop">
+  <div class="shop-header">
+    <h1>Our Products</h1>
+    <div class="shop-header-bn">আমাদের সকল পণ্য</div>
+  </div>
+  <div class="shop-layout">
+    <div>
+      <div class="filter-group">
+        <h4>Category <span>ক্যাটাগরি</span></h4>
+        <div class="filter-item"><input type="checkbox" id="f1" onchange="applyFilters()" checked><label for="f1">Eco-friendly / পরিবেশবান্ধব</label></div>
+        <div class="filter-item"><input type="checkbox" id="f2" onchange="applyFilters()" checked><label for="f2">Fashion / ফ্যাশন</label></div>
+        <div class="filter-item"><input type="checkbox" id="f3" onchange="applyFilters()" checked><label for="f3">Organic Food / অর্গানিক</label></div>
+        <div class="filter-item"><input type="checkbox" id="f4" onchange="applyFilters()" checked><label for="f4">Home Goods / হোম</label></div>
+      </div>
+      <div class="filter-group">
+        <h4>Price / মূল্য</h4>
+        <div class="filter-item"><input type="radio" name="price" id="p1" onchange="applyFilters()" checked><label for="p1">সব মূল্য</label></div>
+        <div class="filter-item"><input type="radio" name="price" id="p2" onchange="applyFilters()"><label for="p2">৳১০০ এর নিচে</label></div>
+        <div class="filter-item"><input type="radio" name="price" id="p3" onchange="applyFilters()"><label for="p3">৳১০০ – ৳৫০০</label></div>
+        <div class="filter-item"><input type="radio" name="price" id="p4" onchange="applyFilters()"><label for="p4">৳৫০০ এর উপরে</label></div>
+      </div>
+    </div>
+    <div>
+      <div class="shop-toolbar">
+        <span id="productCount">12 products</span>
+        <select class="sort-select"><option>ফিচার্ড</option><option>কম দাম আগে</option><option>বেশি দাম আগে</option><option>নতুন পণ্য</option></select>
+      </div>
+      <div class="shop-products" id="shopProducts"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="page-about">
+  <div class="section">
+    <div class="about-grid">
+      <div class="about-img-stack">
+        <div class="about-img1">🌍</div>
+        <div class="about-img2">🇧🇩</div>
+      </div>
+      <div class="about">
+        <div class="about-badge">আমাদের গল্প / Our story</div>
+        <h2>Sustainability isn't a trend — it's our mission</h2>
+        <div class="about-bn">টেকসইতা কোনো ট্রেন্ড নয় — এটা আমাদের লক্ষ্য</div>
+        <p>SustinAct was founded by Sifat in Bangladesh with a simple belief: every purchasing decision is a vote for the kind of world we want to live in.</p>
+        <p>সিফাত বিশ্বাস করেন যে বাংলাদেশকে সবুজ ও টেকসই করতে হলে আমাদের প্রতিটি কেনাকাটার সিদ্ধান্তে পরিবর্তন আনতে হবে।</p>
+        <div class="values-grid">
+          <div class="value-item"><span class="value-dot"></span> প্লাস্টিক-ফ্রি প্যাকেজিং</div>
+          <div class="value-item"><span class="value-dot"></span> কার্বন-নিউট্রাল ডেলিভারি</div>
+          <div class="value-item"><span class="value-dot"></span> প্রতি অর্ডারে ১টি গাছ</div>
+          <div class="value-item"><span class="value-dot"></span> ফেয়ার ট্রেড সার্টিফাইড</div>
+          <div class="value-item"><span class="value-dot"></span> ক্রুয়েলটি-ফ্রি পণ্য</div>
+          <div class="value-item"><span class="value-dot"></span> স্থানীয় কৃষক সমর্থন</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--cream);padding:4rem 2rem;text-align:center;">
+    <div style="max-width:580px;margin:0 auto;">
+      <div style="width:96px;height:96px;border-radius:50%;background:var(--green-light);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:48px;">🌱</div>
+      <div style="font-family:var(--ff);font-size:24px;color:var(--bark);font-weight:600;margin-bottom:4px;">Sifat</div>
+      <div style="font-family:var(--fb);font-size:13px;color:var(--green);margin-bottom:1.25rem;">প্রতিষ্ঠাতা ও সাসটেইনেবিলিটি অফিসার</div>
+      <p style="color:#777;font-size:15px;line-height:1.8;font-family:var(--fb);">"আমি SustinAct শুরু করেছিলাম কারণ আমি চেয়েছিলাম টেকসই জীবনযাপনকে সহজলভ্য ও আনন্দময় করে তুলতে — বাংলাদেশের সবার জন্য।"</p>
+    </div>
+  </div>
+</div>
+
+<!-- POLICIES -->
+<div class="page" id="page-policies">
+  <div class="policy-header">
+    <h1>Our Policies</h1>
+    <div class="policy-header-bn">আমাদের নীতিমালা</div>
+  </div>
+  <div style="background:#fff;padding:0 2rem;">
+    <div class="policy-tabs">
+      <div class="policy-tab active" onclick="switchPolicy('shipping',this)">🚚 Shipping / শিপিং</div>
+      <div class="policy-tab" onclick="switchPolicy('return',this)">↩️ Returns / রিটার্ন</div>
+      <div class="policy-tab" onclick="switchPolicy('privacy',this)">🔒 Privacy / গোপনীয়তা</div>
+    </div>
+  </div>
+
+  <div class="policy-page-wrap">
+  <div class="policy-content" id="policy-shipping">
+    <div class="policy-section">
+      <h3>Shipping Policy</h3>
+      <h3-bn>শিপিং নীতিমালা</h3-bn>
+      <div class="policy-pill"><span class="pill">৬৪ জেলা</span><span class="pill">৩–৭ কার্যদিবস</span><span class="pill">৳৫০০+ ফ্রি শিপিং</span></div>
+      <p>We deliver across all 64 districts of Bangladesh. Standard delivery takes 3–5 business days for Dhaka and major cities, and 5–7 business days for other areas.</p>
+      <p class="bn">আমরা বাংলাদেশের সকল ৬৪ জেলায় ডেলিভারি দিই। ঢাকা ও প্রধান শহরগুলোতে ৩–৫ কার্যদিবস এবং অন্যান্য এলাকায় ৫–৭ কার্যদিবসের মধ্যে পণ্য পৌঁছে যাবে।</p>
+      <h3>Shipping charges</h3>
+      <h3-bn>শিপিং চার্জ</h3-bn>
+      <p>Orders above ৳500 qualify for free shipping anywhere in Bangladesh. Orders below ৳500 are charged ৳60 for Dhaka and ৳100 for outside Dhaka.</p>
+      <p class="bn">৳৫০০ বা তার বেশি অর্ডারে সারা বাংলাদেশে ফ্রি শিপিং পাবেন। ৳৫০০ এর কম অর্ডারে ঢাকার মধ্যে ৳৬০ এবং ঢাকার বাইরে ৳১০০ শিপিং চার্জ প্রযোজ্য।</p>
+      <h3>Delivery partners</h3>
+      <h3-bn>ডেলিভারি পার্টনার</h3-bn>
+      <p>We use Pathao, Steadfast, and Sundarban Courier as our trusted delivery partners. You will receive an SMS with your tracking number once the order is shipped.</p>
+      <p class="bn">আমরা পাঠাও, স্টেডফাস্ট এবং সুন্দরবন কুরিয়ার ব্যবহার করি। অর্ডার শিপ হলে আপনি SMS-এ ট্র্যাকিং নম্বর পাবেন।</p>
+      <h3>Cash on delivery</h3>
+      <h3-bn>ক্যাশ অন ডেলিভারি</h3-bn>
+      <p>We accept Cash on Delivery (COD) across Bangladesh. You can also pay via bKash, Nagad, Rocket, or credit/debit card online.</p>
+      <p class="bn">আমরা সারা বাংলাদেশে ক্যাশ অন ডেলিভারি গ্রহণ করি। এছাড়াও বিকাশ, নগদ, রকেট বা অনলাইন কার্ডে পেমেন্ট করতে পারবেন।</p>
+    </div>
+  </div>
+
+  <div class="policy-content" id="policy-return" style="display:none;">
+    <div class="policy-section">
+      <h3>Return & Refund Policy</h3>
+      <h3-bn>রিটার্ন ও রিফান্ড নীতিমালা</h3-bn>
+      <div class="policy-pill"><span class="pill">৭ দিনের রিটার্ন</span><span class="pill">সহজ প্রক্রিয়া</span><span class="pill">সম্পূর্ণ রিফান্ড</span></div>
+      <p>We offer a 7-day hassle-free return policy. If you are not satisfied with your purchase for any reason, you may return the product within 7 days of delivery for a full refund or exchange.</p>
+      <p class="bn">আমরা ৭ দিনের ঝামেলামুক্ত রিটার্ন পলিসি অফার করি। ডেলিভারির ৭ দিনের মধ্যে যেকোনো কারণে পণ্য ফেরত দিতে পারবেন এবং সম্পূর্ণ রিফান্ড বা এক্সচেঞ্জ পাবেন।</p>
+      <h3>Conditions for return</h3>
+      <h3-bn>রিটার্নের শর্তসমূহ</h3-bn>
+      <p>Products must be unused, in original packaging, and accompanied by the receipt. Food and organic products cannot be returned once opened for hygiene reasons.</p>
+      <p class="bn">পণ্যটি অব্যবহৃত, মূল প্যাকেজিংয়ে এবং রসিদসহ থাকতে হবে। স্বাস্থ্যবিধির কারণে একবার খোলা খাদ্য ও অর্গানিক পণ্য ফেরত নেওয়া হবে না।</p>
+      <h3>How to return</h3>
+      <h3-bn>কীভাবে রিটার্ন করবেন</h3-bn>
+      <p>Contact us via WhatsApp at +880 1X-XXXX-XXXX or email hello@sustinact.com.bd within 7 days. Our team will arrange free pickup from your location.</p>
+      <p class="bn">৭ দিনের মধ্যে +880 1X-XXXX-XXXX নম্বরে WhatsApp করুন অথবা hello@sustinact.com.bd-তে ইমেইল করুন। আমাদের টিম আপনার লোকেশন থেকে বিনামূল্যে পণ্য সংগ্রহ করবে।</p>
+      <h3>Refund timeline</h3>
+      <h3-bn>রিফান্ডের সময়সীমা</h3-bn>
+      <p>Refunds are processed within 3–5 business days to your original payment method. bKash/Nagad refunds are instant once approved.</p>
+      <p class="bn">রিফান্ড আপনার মূল পেমেন্ট পদ্ধতিতে ৩–৫ কার্যদিবসের মধ্যে প্রক্রিয়া করা হবে। অনুমোদনের পর বিকাশ/নগদ রিফান্ড তাৎক্ষণিক হয়।</p>
+    </div>
+  </div>
+
+  <div class="policy-content" id="policy-privacy" style="display:none;">
+    <div class="policy-section">
+      <h3>Privacy Policy</h3>
+      <h3-bn>গোপনীয়তা নীতি</h3-bn>
+      <div class="policy-pill"><span class="pill">ডেটা সুরক্ষিত</span><span class="pill">কোনো তৃতীয় পক্ষ নেই</span><span class="pill">SSL এনক্রিপ্টেড</span></div>
+      <p>SustinAct is committed to protecting your personal information. We collect only the data necessary to process your orders and improve your shopping experience.</p>
+      <p class="bn">SustinAct আপনার ব্যক্তিগত তথ্য সুরক্ষায় প্রতিশ্রুতিবদ্ধ। আমরা কেবলমাত্র আপনার অর্ডার প্রক্রিয়াকরণ এবং কেনাকাটার অভিজ্ঞতা উন্নত করতে প্রয়োজনীয় তথ্য সংগ্রহ করি।</p>
+      <h3>What we collect</h3>
+      <h3-bn>আমরা কী তথ্য সংগ্রহ করি</h3-bn>
+      <p>We collect your name, phone number, delivery address, and payment information. We do not store card details — all payments are handled by secure third-party gateways (bKash, SSLCommerz).</p>
+      <p class="bn">আমরা আপনার নাম, ফোন নম্বর, ডেলিভারি ঠিকানা এবং পেমেন্ট তথ্য সংগ্রহ করি। আমরা কার্ডের বিবরণ সংরক্ষণ করি না — সব পেমেন্ট নিরাপদ তৃতীয় পক্ষের গেটওয়ে (বিকাশ, SSLCommerz) দ্বারা পরিচালিত হয়।</p>
+      <h3>How we use your data</h3>
+      <h3-bn>আমরা আপনার তথ্য কীভাবে ব্যবহার করি</h3-bn>
+      <p>Your information is used solely to fulfil your orders, send delivery updates via SMS, and occasionally notify you of relevant offers. We never sell your data to third parties.</p>
+      <p class="bn">আপনার তথ্য শুধুমাত্র অর্ডার পূরণ, SMS-এ ডেলিভারি আপডেট পাঠানো এবং মাঝে মাঝে প্রাসঙ্গিক অফার জানাতে ব্যবহার করা হয়। আমরা কখনই আপনার তথ্য তৃতীয় পক্ষের কাছে বিক্রি করি না।</p>
+      <h3>Your rights</h3>
+      <h3-bn>আপনার অধিকার</h3-bn>
+      <p>You have the right to access, correct, or delete your personal data at any time. Contact us at hello@sustinact.com.bd to make a request.</p>
+      <p class="bn">আপনি যেকোনো সময় আপনার ব্যক্তিগত তথ্য দেখতে, সংশোধন করতে বা মুছে দেওয়ার অনুরোধ করতে পারেন। hello@sustinact.com.bd-তে ইমেইল করুন।</p>
+      <h3>Cookies</h3>
+      <h3-bn>কুকিজ</h3-bn>
+      <p>We use essential cookies to keep your shopping cart active. We do not use tracking cookies or share data with advertisers.</p>
+      <p class="bn">আমরা আপনার শপিং কার্ট সক্রিয় রাখতে প্রয়োজনীয় কুকি ব্যবহার করি। আমরা ট্র্যাকিং কুকি ব্যবহার করি না বা বিজ্ঞাপনদাতাদের সাথে ডেটা শেয়ার করি না।</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+  <div class="section">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="about-badge">যোগাযোগ করুন / Get in touch</div>
+        <h2>We'd love to hear from you</h2>
+        <div class="contact-info-bn">আমরা আপনার কথা শুনতে চাই</div>
+        <p>আমাদের পণ্য, ডেলিভারি বা অর্ডার নিয়ে যেকোনো প্রশ্ন থাকলে যোগাযোগ করুন। ২৪ ঘণ্টার মধ্যে উত্তর দেওয়া হবে।</p>
+        <div class="contact-detail">
+          <div class="contact-icon">📧</div>
+          <div class="contact-detail-text"><strong>Email</strong><span>hello@sustinact.com.bd</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail-text"><strong>Phone / WhatsApp</strong><span>+880 1X-XXXX-XXXX</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail-text"><strong>Location / অবস্থান</strong><span>Bangladesh 🇧🇩</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-detail-text"><strong>Hours / সময়</strong><span>শনি–বৃহস্পতি, সকাল ৯টা – সন্ধ্যা ৬টা</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group"><label>Name <span>/ নাম</span></label><input type="text" placeholder="আপনার নাম" /></div>
+            <div class="form-group"><label>Phone <span>/ ফোন</span></label><input type="tel" placeholder="+880 1X-XXXX-XXXX" /></div>
+          </div>
+          <div class="form-group"><label>Email <span>/ ইমেইল</span></label><input type="email" placeholder="you@example.com" /></div>
+          <div class="form-group"><label>Subject <span>/ বিষয়</span></label>
+            <select><option>পণ্য সম্পর্কে জিজ্ঞাসা</option><option>অর্ডার সাপোর্ট</option><option>রিটার্ন / রিফান্ড</option><option>পার্টনারশিপ</option><option>অন্যান্য</option></select>
+          </div>
+          <div class="form-group"><label>Message <span>/ বার্তা</span></label><textarea placeholder="আপনার বার্তা লিখুন..."></textarea></div>
+          <button class="btn-primary" style="width:100%" onclick="submitContact()">বার্তা পাঠান / Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="cursor:default">
+          <div class="logo-mark">SA</div>
+          <div>
+            <div class="logo-text" style="color:#fff;">Sustin<span style="color:var(--mist)">Act</span></div>
+            <span class="logo-sub" style="color:#6b7280;">by Sifat — বাংলাদেশ 🇧🇩</span>
+          </div>
+        </div>
+        <p>Making sustainable living accessible for every Bangladeshi — one purchase at a time.</p>
+        <div class="footer-brand-bn">প্রতিটি কেনাকাটায় বাংলাদেশকে সবুজ করি।</div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop <span>শপ করুন</span></h4>
+        <a onclick="filterCat('Eco');showPage('shop')">Eco-friendly<span class="bn">পরিবেশবান্ধব</span></a>
+        <a onclick="filterCat('Fashion');showPage('shop')">Fashion<span class="bn">ফ্যাশন</span></a>
+        <a onclick="filterCat('Organic');showPage('shop')">Organic Food<span class="bn">অর্গানিক খাবার</span></a>
+        <a onclick="filterCat('Home');showPage('shop')">Home Goods<span class="bn">হোম পণ্য</span></a>
+      </div>
+      <div class="footer-col">
+        <h4>Company <span>কোম্পানি</span></h4>
+        <a onclick="showPage('about')">About us<span class="bn">আমাদের সম্পর্কে</span></a>
+        <a onclick="showPage('contact')">Contact<span class="bn">যোগাযোগ</span></a>
+        <a>Blog<span class="bn">ব্লগ</span></a>
+      </div>
+      <div class="footer-col">
+        <h4>Policies <span>নীতিমালা</span></h4>
+        <a onclick="switchPolicy('shipping',null);showPage('policies')">Shipping Policy<span class="bn">শিপিং নীতি</span></a>
+        <a onclick="switchPolicy('return',null);showPage('policies')">Return Policy<span class="bn">রিটার্ন নীতি</span></a>
+        <a onclick="switchPolicy('privacy',null);showPage('policies')">Privacy Policy<span class="bn">গোপনীয়তা নীতি</span></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 SustinAct by Sifat. সর্বস্বত্ব সংরক্ষিত। All rights reserved.</p>
+      <div class="eco-badge">🌱 সবুজ বাংলাদেশ</div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const products=[
+  {id:1,name:'Bamboo Reusable Set',nameBn:'বাঁশের পুনর্ব্যবহারযোগ্য সেট',price:380,cat:'Eco',tag:'Eco-friendly',emoji:'🎋',desc:'Complete bamboo cutlery & straw set for zero-waste dining.'},
+  {id:2,name:'Organic Cotton Tote',nameBn:'অর্গানিক কটন ব্যাগ',price:320,cat:'Fashion',tag:'Fashion',emoji:'👜',desc:'GOTS-certified organic cotton tote bag, naturally dyed.'},
+  {id:3,name:'Raw Honey 500g',nameBn:'খাঁটি মধু ৫০০ গ্রাম',price:280,cat:'Organic',tag:'Organic',emoji:'🍯',desc:'Wild-harvested Sundarbans honey, unfiltered and raw.'},
+  {id:4,name:'Beeswax Wraps 3pk',nameBn:'মোমের র‍্যাপ ৩টি',price:460,cat:'Home',tag:'Home',emoji:'🐝',desc:'Replace cling film — reusable, compostable food wraps.'},
+  {id:5,name:'Hemp Linen Panjabi',nameBn:'হেম্প লিনেন পাঞ্জাবি',price:1080,cat:'Fashion',tag:'Fashion',emoji:'👕',desc:'Breathable hemp-linen blend, fair-trade crafted locally.'},
+  {id:6,name:'Green Tea 200g',nameBn:'সিলেট গ্রিন টি ২০০গ্রাম',price:560,cat:'Organic',tag:'Organic',emoji:'🍵',desc:'Organic green tea from Sylhet hills, shade-grown.'},
+  {id:7,name:'Solar Lantern',nameBn:'সোলার লণ্ঠন',price:1550,cat:'Home',tag:'Home',emoji:'💡',desc:'Foldable solar-powered LED lantern — perfect for load-shedding.'},
+  {id:8,name:'Neem Toothbrush',nameBn:'নিম কাঠের টুথব্রাশ',price:95,cat:'Eco',tag:'Eco-friendly',emoji:'🌿',desc:'100% natural neem wood toothbrush, biodegradable.'},
+  {id:9,name:'Jute Shopping Bag',nameBn:'পাটের শপিং ব্যাগ',price:180,cat:'Home',tag:'Home',emoji:'🧺',desc:'Handmade jute bag — Bangladesh\'s own super-material.'},
+  {id:10,name:'Muslin Saree',nameBn:'ঢাকাই মসলিন শাড়ি',price:2400,cat:'Fashion',tag:'Fashion',emoji:'👘',desc:'Authentic Dhakai muslin, handwoven by local artisans.'},
+  {id:11,name:'Moringa Powder 100g',nameBn:'মরিঙ্গা পাউডার ১০০গ্রাম',price:220,cat:'Organic',tag:'Organic',emoji:'🌱',desc:'100% organic Moringa (Shajne pata) powder from Bangladesh.'},
+  {id:12,name:'Bamboo Toothbrush Set',nameBn:'বাঁশের টুথব্রাশ সেট',price:390,cat:'Eco',tag:'Eco-friendly',emoji:'🪥',desc:'Pack of 4 biodegradable bamboo toothbrushes.'}
+];
+
+let cart=[];
+
+function renderProducts(list,cid){
+  const el=document.getElementById(cid);
+  if(!el)return;
+  el.innerHTML=list.map(p=>`
+    <div class="product-card">
+      <div class="product-img" style="background:${getBg(p.cat)}">${p.emoji}</div>
+      <div class="product-body">
+        <span class="product-tag">${p.tag}</span>
+        <div class="product-name">${p.name}</div>
+        <div class="product-name-bn">${p.nameBn}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div>
+            <div class="product-price">৳${p.price.toLocaleString('bn-BD')}</div>
+            <span class="product-price-sub">BDT ${p.price.toLocaleString()}</span>
+          </div>
+          <button class="add-to-cart" onclick="addToCart(${p.id})">+ কার্টে যোগ</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getBg(cat){
+  return {Eco:'#E1F5EE',Fashion:'#EAF3DE',Organic:'#FAEEDA',Home:'#E6F1FB'}[cat]||'#f5f5f5';
+}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='shop')applyFilters();
+}
+
+function filterCat(cat){
+  showPage('shop');
+  ['f1','f2','f3','f4'].forEach(id=>document.getElementById(id).checked=false);
+  const map={Eco:'f1',Fashion:'f2',Organic:'f3',Home:'f4'};
+  if(map[cat])document.getElementById(map[cat]).checked=true;
+  applyFilters();
+}
+
+function applyFilters(){
+  const cats=[];
+  if(document.getElementById('f1').checked)cats.push('Eco');
+  if(document.getElementById('f2').checked)cats.push('Fashion');
+  if(document.getElementById('f3').checked)cats.push('Organic');
+  if(document.getElementById('f4').checked)cats.push('Home');
+  let filtered=products.filter(p=>cats.includes(p.cat));
+  const pr=document.querySelector('input[name="price"]:checked');
+  if(pr&&pr.id==='p2')filtered=filtered.filter(p=>p.price<100);
+  if(pr&&pr.id==='p3')filtered=filtered.filter(p=>p.price>=100&&p.price<=500);
+  if(pr&&pr.id==='p4')filtered=filtered.filter(p=>p.price>500);
+  document.getElementById('productCount').textContent=filtered.length+' পণ্য';
+  renderProducts(filtered,'shopProducts');
+}
+
+function switchPolicy(name,el){
+  ['shipping','return','privacy'].forEach(n=>{
+    document.getElementById('policy-'+n).style.display=n===name?'block':'none';
+  });
+  if(el){
+    document.querySelectorAll('.policy-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+  } else {
+    document.querySelectorAll('.policy-tab').forEach((t,i)=>{
+      t.classList.toggle('active',['shipping','return','privacy'][i]===name);
+    });
+  }
+}
+
+function addToCart(id){
+  cart.push(id);
+  document.getElementById('cartCount').textContent=cart.length;
+  showToast('কার্টে যোগ হয়েছে! 🛒');
+}
+
+function showCart(){
+  const total=cart.reduce((s,id)=>s+(products.find(p=>p.id===id)?.price||0),0);
+  showToast('কার্ট: '+cart.length+' পণ্য — ৳'+total.toLocaleString());
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function submitContact(){
+  showToast('বার্তা পাঠানো হয়েছে! ২৪ ঘণ্টার মধ্যে উত্তর পাবেন 🌿');
+}
+
+function handleSearch(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  if(!q)return;
+  showPage('shop');
+  const f=products.filter(p=>p.name.toLowerCase().includes(q)||p.nameBn.includes(q)||p.desc.toLowerCase().includes(q));
+  document.getElementById('productCount').textContent=f.length+' ফলাফল';
+  renderProducts(f,'shopProducts');
+}
+
+renderProducts(products.slice(0,6),'featuredProducts');
+renderProducts(products,'shopProducts');
+</script>
